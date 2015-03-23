@@ -13,35 +13,50 @@ Window {
     width: 640
     height: 480
 
-    property string token
-    property string boardId: "550c1275568fdb3ffd27de9d"
+    property string boardId: "550c1275568fdb3ffd27de9d" // testing board
     property string devKey: "c4ee8aed0832024bb0c28de3d1d265f8"
+    property string token
     property real listWidth: width / 1.5
     property real margin: 8
 
     Settings {
         id: settings
+        property alias boardId: root.boardId
+        property alias devKey: root.devKey
         property alias token: root.token
     }
 
     Dialog {
-        id: tokenInputDialog
-        ColumnLayout {
-            id: column
-            width: parent ? parent.width : 100
-            Label {
-                id: label
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: "Please supply a token:"
-            }
+        id: credentialsDialog
+
+        GridLayout {
+            columns: 2
+            width: parent ? parent.width : implicitWidth
+            Text { text: "Board ID" }
             TextField {
-                id: answerField
+                id: boardIdField
                 Layout.fillWidth: true
+                text: boardId
+            }
+
+            Text { text: "Dev Key" }
+            TextField {
+                id: devKeyField
+                Layout.fillWidth: true
+                text: devKey
+            }
+
+            Text { text: "Token" }
+            TextField {
+                id: tokenField
+                Layout.fillWidth: true
+                text: token
             }
         }
         onAccepted: {
-            root.token = answerField.text
+            root.boardId = boardIdField.text
+            root.devKey = devKeyField.text
+            root.token = tokenField.text
             getLists()
         }
     }
@@ -102,9 +117,9 @@ Window {
     }
 
     Component.onCompleted: {
-        if (token)
+        if (token && boardId && devKey)
             getLists()
         else
-            tokenInputDialog.visible = true
+            credentialsDialog.visible = true
     }
 }
