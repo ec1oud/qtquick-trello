@@ -24,6 +24,27 @@ Rectangle {
         }
     }
 
+    states: [
+        State {
+            when: dropArea.containsDrag
+            PropertyChanges {
+                target: root
+                border.color: "red"
+                border.width: 3
+            }
+        }
+    ]
+
+    DropArea {
+        id: dropArea
+        anchors { fill: parent }
+        onEntered: {
+            console.log(root)
+//            drag.accept(Qt.MoveAction)
+        }
+        onDropped: console.log("dropped " + drop + " " + drop.drag.source + " in " + root)
+    }
+
     Text {
         id: listLabel
         text: name
@@ -46,6 +67,27 @@ Rectangle {
             width: cardsList.width
             height: 30
             // onClick: flip over to back side...
+            drag.target: cardFront
+            onParentChanged: console.log("parent" + parent)
+
+            states: [
+                State {
+                    when: cardRoot.Drag.active
+                    ParentChange {
+                        target: cardRoot
+                        parent: root.parent
+                    }
+                    PropertyChanges {
+                        target: cardRoot
+                        z: 1000
+                    }
+                }
+            ]
+
+            Drag.active: cardRoot.drag.active
+            Drag.source: cardRoot
+            Drag.hotSpot { x: width / 2; y: height / 2 }
+
             Rectangle {
                 id: cardFront
                 width: cardsList.width
