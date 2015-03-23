@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qml/CardsList.qml</file>
+        <file>qml/IconButton.qml</file>
+        <file>qml/CardFront.qml</file>
+        <file>qml/CardBack.qml</file>
     </qresource>
 </RCC>

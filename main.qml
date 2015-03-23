@@ -7,11 +7,12 @@ import Qt.labs.settings 1.0
 import "qml"
 
 Window {
-    id: root
+    id: window
     visible: true
 
     width: 640
     height: 480
+    color: "#112211"
 
     property string boardId: "550c1275568fdb3ffd27de9d" // testing board
     property string devKey: "c4ee8aed0832024bb0c28de3d1d265f8"
@@ -21,9 +22,9 @@ Window {
 
     Settings {
         id: settings
-        property alias boardId: root.boardId
-        property alias devKey: root.devKey
-        property alias token: root.token
+        property alias boardId: window.boardId
+        property alias devKey: window.devKey
+        property alias token: window.token
     }
 
     Dialog {
@@ -54,9 +55,9 @@ Window {
             }
         }
         onAccepted: {
-            root.boardId = boardIdField.text
-            root.devKey = devKeyField.text
-            root.token = tokenField.text
+            window.boardId = boardIdField.text
+            window.devKey = devKeyField.text
+            window.token = tokenField.text
             getLists()
         }
     }
@@ -97,7 +98,7 @@ Window {
         model: ListModel { id: listsModel }
         anchors.fill: parent
         anchors.margins: margin
-        spacing: margin
+        spacing: margin * 1.5
         delegate: CardsList {
             id: cardsList
             objectName: "CardsList " + name
@@ -113,4 +114,6 @@ Window {
         else
             credentialsDialog.visible = true
     }
+
+    FontLoader { id: iconFont; source: "qrc:/resources/fontawesome-webfont.ttf" }
 }
