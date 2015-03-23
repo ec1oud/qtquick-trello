@@ -98,21 +98,12 @@ Window {
         anchors.fill: parent
         anchors.margins: margin
         spacing: margin
-        delegate: Rectangle {
+        delegate: CardsList {
+            id: cardsList
+            objectName: "CardsList " + name
             height: listsList.height
             width: listWidth
-            border.color: "black"
-            radius: 10
-            antialiasing: true
-
-            Text {
-                id: listLabel
-                text: name
-                x: margin
-                y: margin
-            }
-            CardsList { id: cardsList }
-            Component.onCompleted: cardsList.getCards(id)
+            Component.onCompleted: getCards(id)
         }
     }
 
