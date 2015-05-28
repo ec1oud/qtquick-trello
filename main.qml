@@ -53,6 +53,12 @@ Window {
                 Layout.fillWidth: true
                 text: token
             }
+            Text {
+                text: 'Please get an <a href="xxx">access token</a> and paste it above'
+                onLinkActivated: Qt.openUrlExternally("https://trello.com/1/authorize?key=" + devKeyField.text +
+                         "&name=QtQuick+Trello+Client&expiration=never&response_type=token")
+                Layout.columnSpan: 2
+            }
         }
         onAccepted: {
             window.boardId = boardIdField.text
