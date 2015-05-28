@@ -83,28 +83,32 @@ Window {
 
     function gotLists(json) {
         console.log("got lists " + json)
-        listsModel.clear()
-        var col = 0
-        for (var lidx in json) {
-            var list = json[lidx]
-            listsModel.insert(col, list)
-            ++col
-        }
+        lists.model = json
     }
 
-    ListView {
-        id: listsList
-        orientation: ListView.Horizontal
-        model: ListModel { id: listsModel }
+    Flickable {
+        id: listsFlick
+        flickableDirection: Flickable.HorizontalFlick
         anchors.fill: parent
         anchors.margins: margin
-        spacing: margin * 1.5
-        delegate: CardsList {
-            id: cardsList
-            objectName: "CardsList " + name
-            height: listsList.height
-            width: listWidth
-            Component.onCompleted: getCards(id)
+        Row {
+            id: listRow
+            spacing: margin * 1.5
+        }
+        Instantiator {
+            id: lists
+            CardsList {
+                parent: listRow
+                objectName: "CardsList " + name
+                height: listsFlick.height
+                width: listWidth
+                // Problem with Instantiator: model[index] is undefined at the time the delegate is instantiated
+                property var delegateModel: lists.model[index]
+                // Another difference compared to Repeater, ListView etc:
+                // properties from the model are not automatically visible to the delegates
+                name: delegateModel === undefined ? "" : delegateModel.name
+                listId: delegateModel === undefined ? "" : delegateModel.id
+            }
         }
     }
 

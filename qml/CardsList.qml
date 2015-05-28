@@ -8,6 +8,10 @@ RectangularGlow {
     cornerRadius: 5
     glowRadius: 5
     property real margin: 8
+    property string name
+    property string listId
+
+    onListIdChanged: getCards(listId)
 
     Rectangle {
         anchors.fill: parent
