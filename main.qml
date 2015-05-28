@@ -29,6 +29,7 @@ Window {
 
     Dialog {
         id: credentialsDialog
+        title: "Log in to Trello"
 
         GridLayout {
             columns: 2
@@ -75,7 +76,13 @@ Window {
         request.onreadystatechange = function(event) {
             if (request.readyState === XMLHttpRequest.DONE) {
                 console.log(request.responseText)
-                callback(JSON.parse(request.responseText))
+                if (request.responseText.indexOf("invalid token") >= 0) {
+                    credentialsDialog.setTitle("Please use a valid access token")
+                    credentialsDialog.open()
+                    tokenField.selectAll()
+                }
+                else
+                    callback(JSON.parse(request.responseText))
             }
         }
         request.send()
