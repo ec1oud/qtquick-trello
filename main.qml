@@ -99,25 +99,18 @@ Window {
         lists.model = json
     }
 
-    Flickable {
-        id: listsFlick
-        flickableDirection: Flickable.HorizontalFlick
+    ListView {
+        id: lists
+        orientation: Qt.Horizontal
         anchors.fill: parent
         anchors.margins: margin
-        Row {
-            id: listRow
-            spacing: margin * 1.5
-        }
-        Instantiator {
-            id: lists
-            CardsList {
-                parent: listRow
-                objectName: "CardsList " + name
-                height: listsFlick.height
-                width: listWidth
-                name: modelData.name
-                listId: modelData.id
-            }
+        spacing: margin * 1.5
+        delegate: CardsList {
+            objectName: "CardsList " + name
+            height: lists.height
+            width: listWidth
+            name: modelData.name
+            listId: modelData.id
         }
     }
 
