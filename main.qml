@@ -115,12 +115,8 @@ Window {
                 objectName: "CardsList " + name
                 height: listsFlick.height
                 width: listWidth
-                // Problem with Instantiator: model[index] is undefined at the time the delegate is instantiated
-                property var delegateModel: lists.model[index]
-                // Another difference compared to Repeater, ListView etc:
-                // properties from the model are not automatically visible to the delegates
-                name: delegateModel === undefined ? "" : delegateModel.name
-                listId: delegateModel === undefined ? "" : delegateModel.id
+                name: modelData.name
+                listId: modelData.id
             }
         }
     }
