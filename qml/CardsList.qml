@@ -4,12 +4,16 @@ import QtGraphicalEffects 1.0
 
 RectangularGlow {
     id: root
+
+    // Properties to be set from the model
+    property string name
+    property string listId
+
+    property real margin: 8
+
     color: "lightgreen"
     cornerRadius: 5
     glowRadius: 5
-    property real margin: 8
-    property string name
-    property string listId
 
     onListIdChanged: getCards(listId)
 
@@ -28,13 +32,7 @@ RectangularGlow {
 
     function gotCards(json) {
         console.log("got cards " + json)
-        listModel.clear()
-        for (var i in json) {
-            var card = json[i]
-            console.log("inserting card " + i + " '" + card["name"] + "' in list '" + name + "'")
-            listModel.insert(i, card)
-            ++i
-        }
+        cardsList.model = json
     }
 
     Text {
@@ -54,7 +52,6 @@ RectangularGlow {
             topMargin: margin * 2 + listLabel.implicitHeight
         }
         spacing: margin
-        model: ListModel { id: listModel }
 
         delegate: Flipable {
             id: cardRoot
@@ -64,7 +61,10 @@ RectangularGlow {
 
             property bool flipped: false
 
-            front: CardFront { onClicked: flipped = true }
+            front: CardFront {
+                onClicked: flipped = true
+                label: modelData.name
+            }
             back: CardBack {
                 id: cardBack
                 onDone: flipped = false

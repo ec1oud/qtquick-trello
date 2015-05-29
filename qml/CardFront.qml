@@ -3,8 +3,13 @@ import QtQuick.Controls 1.2
 
 MouseArea {
     id: cardFront
+
+    // Properties to be set from the model
+    property alias label: cardLabel.text
+
     width: cardsList.width
     height: 30
+
     Rectangle {
         anchors.fill: parent
         color: "beige"
@@ -13,7 +18,6 @@ MouseArea {
 
         Label {
             id: cardLabel
-            text: name
             anchors.fill: parent
             anchors.margins: margin
         }
